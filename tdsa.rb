@@ -3,8 +3,9 @@ module TDSA
   class << self
     
     def test!(&tests)
+      @failures = []
       instance_eval(&tests)
-      puts ' Done.'
+      report_on_failures!
     end
     
   private
@@ -23,10 +24,11 @@ module TDSA
     end
     
     def run!
-      raw_headers = curl "-i #{@domain}#{@path}"
-      @status = parse_status(raw_headers)
+      # eventually do one request instead of two with -i
+      raw_headers = curl("-I #{@domain}#{@path}").split("\n")
+      @status = parse_status(raw_headers.shift)
       @headers = parse_headers(raw_headers)
-      @body = curl "#{@domain}#{@path}"
+      @body = curl("#{@domain}#{@path}")
     end
     
     def curl(args)
@@ -36,27 +38,41 @@ module TDSA
       result
     end
     
-    def parse_status(raw_headers)
-      200 # implement this
+    def parse_status(raw_status)
+      raw_status =~ /^HTTP\/1\.\d (\d+)/
+      $1
     end
     
     def parse_headers(raw_headers)
-      {'Server' => 'lighttpd/1.4.16', 'X-Powered-By' => 'PHP/5.2.1'} # implement this
+      parsed_headers = {}
+      raw_headers.each do |line|
+        key, value = line.split(':')
+        parsed_headers[key.strip] = value.strip
+      end
+      parsed_headers
     end
     
-    def assert_header(assertions = {})
-      # implement this, use check!
+    def assert_header(expected_headers = {})
+      for header, value in expected_headers
+        check_equal! :assert_header, value, @headers[header]
+      end
     end
     
     alias :assert_headers :assert_header
     
-    def assert_status(expected_status)
-      check!(:assert_status, expected_status, @status)
+    def assert_status(expected_status)  
+      check_equal!(:assert_status, expected_status.to_s, @status) # convert expected_status.to_s so we don't have to cast $1.to_s in parse_status()
     end
     
-    def check!(assertion, expected_value, actual_value)
+    def check_equal!(assertion, expected_value, actual_value)
       unless expected_value == actual_value
-        puts "#{assertion} on #{@domain}#{@path} failed - expected #{expected_value.inspect} got '#{actual_value.inspect}'"
+        @failures << "#{assertion} on #{@domain}#{@path} failed - expected #{expected_value.inspect} got #{actual_value.inspect}"
+      end
+    end
+    
+    def check_include!(assertion, expected_substring, string)
+      unless string.include?(expected_substring)
+        @failures << "#{assertion} on #{@domain}#{@path} failed - string did not include #{expected_substring.inspect}"
       end
     end
     
@@ -65,9 +81,18 @@ module TDSA
     end
     
     def assert_body(expected_string_in_body)
-      # implement this
+      check_include!(:assert_body, expected_string_in_body, @body)
     end
     
+    def report_on_failures!
+      puts ''
+      @failures.each { |failure| puts failure }
+      if @failures.any?
+        puts "Done (#{@failures.length} failure(s)!)."
+      else
+        puts "Done (no worries!)."
+      end
+    end
     
   end
   

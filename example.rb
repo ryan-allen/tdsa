@@ -51,14 +51,16 @@ TDSA.test! do
     
   end
   
-  with 'feeds.feedburner.com' do
-    
-    get '/zenhabits' do
-      assert_status 200
-      assert_server 'Apache'
-      assert_body 'Current Feed Content'
-    end
-    
-  end
+  # problem here - feedburner returns different page in safari to curl...
+  #
+  # with 'feeds.feedburner.com' do
+  #   
+  #   get '/zenhabits' do
+  #     assert_status 200
+  #     assert_server 'Apache'
+  #     assert_body 'Current Feed Content'
+  #   end
+  #   
+  # end
   
 end
