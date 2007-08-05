@@ -13,7 +13,7 @@ TDSA.test! do
     get '/productivity/gtd-for-freelancers/' do
       assert_status 200
       assert_server 'lighttpd/1.4.16'
-      assert_header 'X-Powered-By', 'PHP/5.2.1'
+      assert_header 'X-Powered-By' => 'PHP/5.2.1'
       assert_body 'Working without a boss, freelance workers need to find ways to motivate themselves'
     end
     
