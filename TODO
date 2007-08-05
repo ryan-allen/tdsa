@@ -1,0 +1,5 @@
+[ ] use `curl -i freelanceswitch.com 2>/dev/null` to redirect stderr
+[ ] jobs on fsw are transient, so need a way to capture live links and test them?
+    get '/', :follow => '/jobs/(\d+)' do |job_id|... yeah fucking awesome! do that!
+[ ] how can we test it? screw testing, just prototype it for now...
+[ ] more things here that you think of!
