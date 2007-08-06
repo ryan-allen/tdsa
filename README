@@ -1,0 +1,32 @@
+
+[TDSA - Test Driven System Administration]
+
+  Author: Ryan Allen (ryan@yeahnah.org)
+
+  This is by no means a full featured sysadmin testing tool, but 
+  it fulfils one of our needs: custom configuration of lighttpd.
+
+  If you've ever done any work with mod-rewrite or mod-redirect
+  you know how bloody annoying it can be to get working, and then
+  how much more annoying it can be when you make changes that break
+  other things. We had exactly that problem.
+
+  We practice test driven development when we're coding, why can't
+  we do this with our web servers? I say we can!
+
+  To run the example test, go:
+
+    ruby example.rb
+  
+  For API examples (they're actually our real world tests), see example.rb.
+
+  A bit to do still, but quite nice and useful so far! See TODO for 
+  my rambling notes (they mean something to me, at least). In 
+  particular two features we're going to implement next are:
+
+    * assert_redirected_to for testing mod-rediect (i.e. checking 
+      the Location: header, though we can do this with assert_header)
+    * a fancy :follow => /regex-of-link/ for testing dynamic links, 
+      i.e. on our job board, we want to make sure that /jobs/120 works, 
+      but the jobs are transient - so we probably should select a link
+      dynamically

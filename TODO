@@ -7,18 +7,21 @@
     yeah fucking awesome! do that!
 
 [x] separate out asserts and curl and dsl scoping into separate files, good style that!
-[ ] not sure if the separation is good - too much cross cutting concerns? how else can i
-    arrange it?
+[ ] re: last point - the separation of concerns is fucked, while the methods are all in
+    kind of related files they're all using @failures and @status and all that junk...
+    how should i arrange them?
 
 [ ] how can we test this? (we're prototyping!... hehe - oh, mock out the curl bit after we
-    finish the first todo)
+    finish the second todo)
     
-[ ] remember assert_redirected_to
+[ ] assert_redirected_to
 
-[ ] write a readme
+[ ] write a readme for teh people
 
-[ ] prepare the gem (generate the gem with hoe, then move all this across)
+[ ] prepare the gem (generate the gem with hoe, then move all this junk)
 
-[ ] publish!
+[ ] publish to gems.yeahnah.org, or gems.eden.cc or something!
 
-[ ] the first point, :follow should be able to do something like :first, :last, :random, :number => 5...... :follow_any? :follow_first, :follow_random? will i need hpricot for this?
+[ ] the first point, :follow should be able to do something like :first, :last, :random, 
+    :number => 5...... :follow_any? :follow_first, :follow_random? will i need hpricot 
+    for this?
