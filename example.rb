@@ -97,6 +97,33 @@ TDSA.test! do
     end
     
   end
+
+  with 'faveup.com' do
+    
+    get '/' do 
+      assert_status 200
+      assert_server 'Mongrel 1.0.1'
+      assert_body 'Design Inspiration Gallery - FAVEUP'
+    end
+    
+    get '/design/548' do
+      assert_status 200
+      assert_server 'Mongrel 1.0.1'
+      assert_body 'Recursive Function'
+    end
+    
+    get '/images/design-images/n-vent_recursive_function-vjvbvh.png' do
+      assert_status 200
+      assert_server 'lighttpd/1.4.16'
+    end
+    
+    get '/javascripts/application.js' do
+      assert_status 200
+      assert_server 'lighttpd/1.4.16'      
+    end
+    
+  end
+
   
   with 'zenhabits.net' do
     
