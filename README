@@ -1,7 +1,7 @@
 
 [TDSA - Test Driven System Administration]
 
-  Author: Ryan Allen (ryan@yeahnah.org)
+  Author: Ryan Allen 
 
   This is by no means a full featured sysadmin testing tool, but 
   it fulfils one of our needs: custom configuration of lighttpd.
