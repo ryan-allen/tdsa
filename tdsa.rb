@@ -1,4 +1,4 @@
-%w(api assertions curl parser).each { |file| require "lib/#{file}" }
+%w(api assertions curl parser).each { |file| require "#{File.dirname(__FILE__)}/lib/#{file}" }
 
 module TDSA  
   class << self

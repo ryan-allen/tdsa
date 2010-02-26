@@ -10,25 +10,29 @@ module TDSA
 
   private
 
-    def with(domain, &paths)
-      @domain = domain
+    def with(*domains, &paths)
+      @domains = domains
       instance_eval(&paths)
-      @domain = nil
+      @domains = nil
     end
 
     def get(path, &asserts)
       @path = path
-      run!
-      instance_eval(&asserts)
+      @domains.each do |domain|
+        @domain = domain
+        run!(domain)
+        instance_eval(&asserts)
+        @domain = nil
+      end
       @path = nil
     end
 
-    def run!
+    def run!(domain)
       # eventually do one request instead of two with -i
-      raw_headers = curl("-I #{@domain}#{@path}").split("\n")
+      raw_headers = curl("-I #{domain}#{@path}").split("\n")
       @status = parse_status(raw_headers.shift)
       @headers = parse_headers(raw_headers)
-      @body = curl("#{@domain}#{@path}")
+      @body = curl("#{domain}#{@path}")
     end
 
     def report_on_failures!
